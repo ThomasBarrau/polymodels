@@ -1,0 +1,18 @@
+name: Checks
+on: push
+jobs:
+  build:
+    name: Checks
+    runs-on: ubuntu-22.04
+    container: ubuntu:22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install library
+        run: |
+          pip install --user '.[test]'
+      - name: Run checks
+        run: |
+          pylint --reports=no polymodels
+          pytest polymodels tests
+          black --check polymodels
